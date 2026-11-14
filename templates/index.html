@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070f">
+  <title>{{ app_name }} · Tutor de Física</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // MathJax debe configurarse antes de cargar la librería
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- ============ PORTADA ============ -->
+  <main id="splash" class="splash">
+    <div class="stage">
+      <img class="stage-img"
+           src="{{ url_for('static', filename='img/portada.jpg') }}"
+           alt="Rey de ajedrez de malla con una luna con el símbolo π sobre una pizarra de fórmulas"
+           draggable="false">
+
+      <!-- Área táctil exactamente sobre la luna de la imagen -->
+      <button id="moon" class="moon" type="button" aria-label="Tocar la luna π para abrir el resolutor de física">
+        <span class="ring"></span>
+        <span class="ring r2"></span>
+      </button>
+    </div>
+
+    <header class="splash-head">
+      <h1 class="splash-title">{{ app_name }}</h1>
+      <p class="splash-sub">Tutor de física con inteligencia artificial</p>
+    </header>
+
+    <p class="splash-hint">Toca la luna para entrar</p>
+  </main>
+
+  <!-- ============ CHAT / RESOLUTOR ============ -->
+  <section id="chat" class="chat" aria-hidden="true" hidden>
+    <!-- Fórmulas a tiza flotando de fondo (las crea app.js) -->
+    <div id="formulas-bg" class="formulas-bg" aria-hidden="true"></div>
+
+    <header class="chat-head">
+      <button id="back" class="icon-btn" type="button" aria-label="Volver a la portada">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="logo-moon" aria-hidden="true">π</span>
+      <div class="chat-head-title">
+        <strong>{{ app_name }}</strong>
+        <small>Resolutor de física</small>
+      </div>
+      <span class="chat-head-dot" title="En línea"></span>
+    </header>
+
+    <div id="messages" class="messages" aria-live="polite">
+      <div class="bubble bot welcome">
+        <p>Bienvenido. Escribe un problema de física, sube una <b>foto</b> o un <b>PDF</b> y te lo resuelvo paso a paso, con gráfica y un dato curioso.</p>
+        <div class="chips">
+          <button type="button" class="chip" data-ejemplo="Un auto de 1200 kg que va a 20 m/s frena con una fuerza de fricción constante de 6000 N. ¿Qué distancia recorre hasta detenerse?">Frenado con fricción</button>
+          <button type="button" class="chip" data-ejemplo="Se lanza una pelota hacia arriba con velocidad inicial de 15 m/s. Calcula la altura máxima y el tiempo de vuelo.">Tiro vertical</button>
+          <button type="button" class="chip" data-ejemplo="Un resorte de constante k = 200 N/m sostiene una masa de 0.5 kg en movimiento armónico simple con amplitud de 0.1 m. Calcula el periodo y la velocidad máxima.">Movimiento armónico</button>
+        </div>
+      </div>
+    </div>
+
+    <form id="composer" class="composer" autocomplete="off">
+      <div id="file-chip" class="file-chip" hidden>
+        <img id="file-thumb" alt="" hidden>
+        <span id="file-icon" class="file-icon" hidden>PDF</span>
+        <span id="file-name" class="file-name"></span>
+        <button id="file-remove" type="button" aria-label="Quitar archivo">×</button>
+      </div>
+      <div class="composer-row">
+        <input id="file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
+        <button id="attach" class="icon-btn" type="button" aria-label="Adjuntar foto o PDF">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 01-8.5-8.5l9.2-9.2a4 4 0 015.7 5.7l-9.2 9.2a2 2 0 01-2.8-2.8l8.5-8.5"/></svg>
+        </button>
+        <textarea id="input" rows="1" placeholder="Escribe tu problema de física…" maxlength="4000"></textarea>
+        <button id="send" class="send-btn" type="submit" aria-label="Enviar">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

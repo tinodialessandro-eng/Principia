@@ -1,0 +1,25 @@
+PRINCIPIA · Tutor de Física con IA
+
+1. Abre el archivo ".env" con el Bloc de notas y reemplaza  pega_aqui_tu_clave
+   por tu clave de Gemini (GEMINI_API_KEY=...). Guarda.
+   (Si ya tenias un .env con tu clave, copialo sobre este.)
+2. Windows: doble clic en iniciar.bat   |   Mac/Linux: ./iniciar.sh
+   La primera vez instala las librerias (flask, google-genai, numpy, matplotlib, reportlab);
+   puede tardar unos minutos. Necesita internet.
+3. Se abre http://localhost:5000  (desde el celular: http://IP-DE-TU-PC:5000, misma red Wi-Fi)
+
+Cada respuesta incluye: resumen, datos, formulas, paso a paso, resultado, grafica,
+codigo Python (numpy + matplotlib) y "En el dia a dia". Con los botones puedes descargar
+el PDF completo o el archivo .py (ejecutalo con:  python grafica.py).
+
+Si ya tenias una carpeta "venv" de una version anterior, no hace falta borrarla:
+iniciar.bat instala solo lo que falta.
+Para ver que modelos de Gemini usa tu clave: http://localhost:5000/api/modelos
+
+Estructura (no muevas nada de lugar):
+  app.py         servidor Flask + Gemini
+  graficas.py    validacion y calculo seguro de las graficas
+  exportar.py    generador del PDF y del codigo Python
+  templates/     index.html
+  static/        style.css, app.js, img/portada.jpg
+  .env           tu clave y opciones
